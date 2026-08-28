@@ -1,22 +1,14 @@
-# Todo API
+# Todo API (PostgreSQL + Docker)
 
-This project is a Node.js and Express CRUD API backed by PostgreSQL through the `pg` library, with Swagger UI at `/docs`.
+## Project Overview
 
-## Database
+This is a Node.js Express Todo CRUD API using PostgreSQL as the storage engine. The API endpoints and response formats remain unchanged, and Swagger UI is available for documentation.
 
-Run PostgreSQL in Docker with this command:
+## Prerequisites
 
-```bash
-docker run --name taskdb -e POSTGRES_PASSWORD=dev -e POSTGRES_DB=tasks -p 5432:5432 -v taskdata:/var/lib/postgresql/data -d postgres
-```
-
-The app expects a `DATABASE_URL` environment variable such as:
-
-```text
-postgres://postgres:dev@localhost:5432/tasks
-```
-
-Copy `.env.example` to `.env` and set the value there.
+- Node.js 20+
+- npm
+- Docker Desktop (or Docker Engine + Compose)
 
 ## Installation
 
@@ -24,75 +16,128 @@ Copy `.env.example` to `.env` and set the value there.
 npm install
 ```
 
-## Run
+## Environment Setup
 
-Start the API:
+Create `.env` from `.env.example`:
+
+```bash
+copy .env.example .env
+```
+
+Required environment variables:
+
+```text
+DATABASE_URL=postgres://postgres:dev@localhost:5432/tasks
+PORT=3000
+```
+
+Keep credentials in `.env` only.
+
+## Local Setup (without Compose)
+
+Start PostgreSQL container:
+
+```bash
+docker run --name taskdb -e POSTGRES_PASSWORD=dev -e POSTGRES_DB=tasks -p 5432:5432 -v taskdata:/var/lib/postgresql/data -d postgres
+```
+
+Start API:
 
 ```bash
 npm start
 ```
 
-Run in development mode:
+## Docker Setup
+
+Build and start full stack:
 
 ```bash
-npm run dev
+docker compose up --build
 ```
 
-The server runs on port `3000` by default.
-
-## Environment Example
+Stop stack:
 
 ```bash
-DATABASE_URL=postgres://postgres:dev@localhost:5432/tasks
+docker compose down
 ```
 
-## Example SQL Query
+Inside Docker, API uses:
 
-```sql
-SELECT id, title, done
-FROM tasks
-ORDER BY id ASC;
+```text
+DATABASE_URL=postgres://postgres:dev@db:5432/tasks
 ```
-
-## DB Screenshot Placeholder
-
-Add a screenshot here showing the `tasks` table from `psql`, pgAdmin, DBeaver, or another Postgres client.
 
 ## API Endpoints
 
 | Method | Endpoint | Description |
 | --- | --- | --- |
 | GET | `/` | Returns API information |
-| GET | `/hello` | Returns a hello message |
+| GET | `/hello` | Returns hello message |
 | GET | `/health` | Returns health status |
-| GET | `/tasks` | Returns all tasks |
-| GET | `/tasks/:id` | Returns one task |
-| POST | `/tasks` | Creates a task |
-| PUT | `/tasks/:id` | Updates a task |
-| DELETE | `/tasks/:id` | Deletes a task |
-| GET | `/stats` | Returns task statistics |
-| POST | `/reset` | Restores the sample tasks |
-| GET | `/docs` | Swagger UI documentation |
+| GET | `/tasks` | List tasks |
+| GET | `/tasks/:id` | Get task by id |
+| POST | `/tasks` | Create task |
+| PUT | `/tasks/:id` | Update task |
+| DELETE | `/tasks/:id` | Delete task |
+| GET | `/stats` | Task statistics |
+| POST | `/reset` | Reset seed tasks |
+| GET | `/docs` | Swagger UI |
 
-## Sample Data
+## Sample CRUD Commands
 
-The database seeds exactly three tasks only when the table is empty:
+Create:
 
-- Learn Express
-- Learn Swagger
-- Finish Assignment
+```bash
+curl -i -X POST http://localhost:3000/tasks -H "Content-Type: application/json" -d "{\"title\":\"Write docs\"}"
+```
 
-## Validation Rules
+Read all:
 
-- `POST /tasks` requires a non-empty `title`.
-- `PUT /tasks/:id` allows `title` and `done` updates.
-- `title` must be a non-empty string when provided.
-- `done` must be a boolean when provided.
-- Invalid task IDs return a JSON error response.
+```bash
+curl -i http://localhost:3000/tasks
+```
 
-## Swagger UI
+Read by id:
 
-Open the documentation at:
+```bash
+curl -i http://localhost:3000/tasks/1
+```
+
+Update:
+
+```bash
+curl -i -X PUT http://localhost:3000/tasks/1 -H "Content-Type: application/json" -d "{\"title\":\"Write docs\",\"done\":true}"
+```
+
+Delete:
+
+```bash
+curl -i -X DELETE http://localhost:3000/tasks/1
+```
+
+## PostgreSQL Verification Commands
+
+Check table:
+
+```bash
+docker exec -it taskdb psql -U postgres -d tasks -c "\dt"
+```
+
+Check rows:
+
+```bash
+docker exec -it taskdb psql -U postgres -d tasks -c "SELECT * FROM tasks ORDER BY id;"
+```
+
+Check count:
+
+```bash
+docker exec -it taskdb psql -U postgres -d tasks -c "SELECT COUNT(*) FROM tasks;"
+```
+
+## Swagger
+
+Open:
 
 ```text
 http://localhost:3000/docs

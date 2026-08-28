@@ -1,8 +1,8 @@
+require('dotenv').config();
 const express = require('express');
 const swaggerUi = require('swagger-ui-express');
 const tasksRouter = require('./routes/tasks');
 const swaggerDocument = require('./swagger/swagger.json');
-require('dotenv').config();
 const taskStore = require('./db');
 const app = express();
 const PORT = process.env.PORT || 3000;
