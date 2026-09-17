@@ -1,0 +1,20 @@
+{
+  "name": "flyrank-a17-llm-enrichment",
+  "version": "1.0.0",
+  "description": "A schema-validated LLM enrichment endpoint for W5 scraped book records.",
+  "main": "app.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node --env-file=.env index.js",
+    "test": "node --test test/*.test.js",
+    "eval": "node scripts/eval.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "openai": "^5.12.2",
+    "zod": "^3.25.76"
+  }
+}

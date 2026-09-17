@@ -1,0 +1,10 @@
+[
+  {"name":"science guide","input":{"title":"A practical guide to astronomy","description":"A non-fiction guide to stars and planets.","price_gbp":20,"availability_text":"In stock","rating_text":"Five"},"expected_category":"non-fiction"},
+  {"name":"detective story","input":{"title":"The Mystery at Red House","description":"A detective investigates a series of clues.","price_gbp":18,"availability_text":"In stock","rating_text":"Four"},"expected_category":"fiction"},
+  {"name":"children adventure","input":{"title":"The Very Young Explorer","description":"A picture book adventure for children aged six and up.","price_gbp":12,"availability_text":"In stock","rating_text":"Five"},"expected_category":"children"},
+  {"name":"missing description","input":{"title":"Untitled","description":null,"price_gbp":20,"availability_text":"In stock","rating_text":null},"expected_category":"other"},
+  {"name":"history","input":{"title":"The History of Flight","description":"A researched account of aviation and aircraft development.","price_gbp":30,"availability_text":"In stock","rating_text":"Four"},"expected_category":"non-fiction"},
+  {"name":"romance","input":{"title":"A Summer Promise","description":"Two strangers fall in love during a summer away.","price_gbp":16,"availability_text":"In stock","rating_text":"Three"},"expected_category":"fiction"},
+  {"name":"ambiguous","input":{"title":"Untitled Notes","description":"Fragments of text with no clear audience or genre.","price_gbp":10,"availability_text":"In stock","rating_text":"Three"},"expected_category":"other"},
+  {"name":"expensive fantasy","input":{"title":"The Dragon and the Crown","description":"A fantasy novel about a young hero and a dragon.","price_gbp":50,"availability_text":"In stock","rating_text":"Five"},"expected_category":"fiction"}
+]
