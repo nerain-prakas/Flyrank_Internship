@@ -1,0 +1,26 @@
+{
+  "name": "ai-web-research-assistant-api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
+    "test": "jest --runInBand"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "openai": "^4.76.0",
+    "pg": "^8.13.1",
+    "pdfkit": "^0.15.0",
+    "@supabase/supabase-js": "^2.46.1",
+    "swagger-ui-express": "^5.0.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
+  }
+}

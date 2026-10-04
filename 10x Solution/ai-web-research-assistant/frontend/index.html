@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Research Assistant</title>
+<style>body{font:16px system-ui;max-width:900px;margin:40px auto;padding:0 20px;background:#f7f8fa;color:#17202a}main{background:white;padding:28px;border-radius:12px;box-shadow:0 2px 12px #0001}textarea{width:100%;min-height:100px;margin:10px 0}button{padding:10px 16px;background:#155eef;color:white;border:0;border-radius:6px}li{margin:10px 0}</style></head>
+<body><main><h1>AI Web Research Assistant</h1><p>Queue a source-backed research project and track its progress.</p><textarea id="question" placeholder="What would you like to research?"></textarea><button id="submit">Start research</button><p id="status"></p><pre id="report"></pre></main>
+<script>
+const token = 'local-development-token';
+const status = document.querySelector('#status');
+document.querySelector('#submit').onclick = async () => {
+  const response = await fetch('http://localhost:3000/api/research', {method:'POST',headers:{'Content-Type':'application/json',Authorization:`Bearer ${token}`},body:JSON.stringify({question:document.querySelector('#question').value})});
+  const job = await response.json(); if (!response.ok) { status.textContent = job.error; return; } status.textContent = `Job ${job.id} queued`;
+  const timer = setInterval(async () => { const r=await fetch(`http://localhost:3000/api/research/${job.id}/status`,{headers:{Authorization:`Bearer ${token}`}}); const s=await r.json(); status.textContent=`Status: ${s.status}`; if(s.status==='completed'||s.status==='failed'){clearInterval(timer); if(s.status==='completed'){const report=await fetch(`http://localhost:3000/api/research/${job.id}/report`,{headers:{Authorization:`Bearer ${token}`}}); document.querySelector('#report').textContent=JSON.stringify(await report.json(),null,2);}} }, 1000);
+};
+</script></body></html>
